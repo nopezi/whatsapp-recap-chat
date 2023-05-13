@@ -1,6 +1,6 @@
 # fly.toml file generated for whatsapp-recap on 2023-05-12T07:15:22Z
 
-app = "whatsapp-recap"
+app = "whatsapp-recapv2"
 kill_signal = "SIGINT"
 kill_timeout = 5
 primary_region = "syd"
