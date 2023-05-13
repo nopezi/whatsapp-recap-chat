@@ -6,7 +6,7 @@
   "type": "commonjs",
   "engines": {
     "npm": "8.19.2",
-    "node": "18.15.0"
+    "node": "16.18.0"
   },
   "scripts": {
     "start": "node src/app.js",
