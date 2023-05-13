@@ -21,7 +21,7 @@ const helpers = require("./helpers");
 
 const konek_wa = () => {
   async function connectToWhatsApp() {
-    const { state, saveState } = useSingleFileAuthState(`./config.json`);
+    const { state, saveState } = useSingleFileAuthState(`./adelia_angel.json`);
     // const { version, isLatest } = await fetchLatestBaileysVersion()
     // console.log(`using WA v${version.join('.')}, isLatest: ${isLatest}`)
 
