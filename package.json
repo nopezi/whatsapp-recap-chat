@@ -4,10 +4,6 @@
   "description": "WhatsApp Bot OpenAI Using Lib Baileys Multi Device",
   "main": "src/app.js",
   "type": "commonjs",
-  "engines": {
-    "npm": "8.19.2",
-    "node": "16.18.0"
-  },
   "scripts": {
     "start": "node src/app.js",
     "nodemon": "nodemon srs/app.js"
