@@ -14,7 +14,7 @@ const simpan_pesan = (data) => {
   sql += `'${data.pengirim}', `;
   sql += `'${data.penerima}', `;
   sql += `'${data.pesan}', `;
-  sql += `'${data.tanggal}', ) `;
+  sql += `'${data.tanggal}', `;
   sql += `'${data.timestamp}' ) `;
 
   console.log("simpan pesan :: ", sql);
