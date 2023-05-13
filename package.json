@@ -40,6 +40,7 @@
     "fs": "0.0.1-security",
     "lodash": "^4.17.21",
     "moment": "2.24.0",
+    "moment-timezone": "^0.5.43",
     "mysql": "^2.18.1",
     "node-cron": "^3.0.2",
     "nodemon": "^2.0.22",

@@ -17,11 +17,11 @@ const {
 const pino = require("pino");
 const { Boom } = require("@hapi/boom");
 const chat_model = require("./models/chat");
-const moment = require('moment');
+const helpers = require("./helpers");
 
 const konek_wa = () => {
   async function connectToWhatsApp() {
-    const { state, saveState } = useSingleFileAuthState(`./adelia_angel.json`);
+    const { state, saveState } = useSingleFileAuthState(`./config.json`);
     // const { version, isLatest } = await fetchLatestBaileysVersion()
     // console.log(`using WA v${version.join('.')}, isLatest: ${isLatest}`)
 
@@ -73,7 +73,11 @@ const konek_wa = () => {
     client.ev.on("creds.update", saveState);
     client.ev.on("messages.upsert", async (pesanMasuk) => {
       //   console.log(JSON.stringify(pesanMasuk, undefined, 2));
-      console.log(pesanMasuk);
+      console.log('pesan baru ::: ')
+      console.log(pesanMasuk)
+      console.log(pesanMasuk?.messages)
+      console.log(pesanMasuk?.messages[0].key)
+      console.log(pesanMasuk?.messages?.extendedTextMessage)
 
       console.log("replying to", pesanMasuk.messages[0].key.remoteJid);
       // console.log(await client)
@@ -105,32 +109,22 @@ const konek_wa = () => {
         : m.message?.extendedTextMessage?.text
         ? m.message.extendedTextMessage.text
         : "";
-      // const waktu = Math.floor(m.messageTimestamp * 1000);
-      // let tanggal = new Date(waktu).toLocaleString("id-ID", {
-      //   timeZone: "Asia/Jakarta",
-      //   year: 'numeric',
-      //   month: "2-digit",
-      //   day: "2-digit",
-      //   hour: "2-digit",
-      //   minute: "2-digit",
-      //   second: "2-digit",
-      // });
-      
-      // const tanggal_clear = moment(tanggal.replace(/\./g, ':')).format('YYYY-DD-MM hh:mm:ss')
-      // console.log('tanggal ubah :: ', tanggal_clear)
 
       if (pesan) {
-        chat_model.simpan_pesan({
-          pengirim: m.key.fromMe
-            ? client.user.id
-            : pesanMasuk.messages[0].key.remoteJid,
-          penerima: !m.key.fromMe
-            ? client.user.id
-            : pesanMasuk.messages[0].key.remoteJid,
-          pesan: pesan,
-          tanggal: '', //tanggal_clear,
-          timestamp: m.messageTimestamp
-        });
+        if (pesanMasuk.messages[0].key.remoteJid != 'status@broadcast') {
+          chat_model.simpan_pesan({
+            pengirim: m.key.fromMe
+              ? client.user.id
+              : pesanMasuk.messages[0].key.remoteJid,
+            penerima: !m.key.fromMe
+              ? client.user.id
+              : pesanMasuk.messages[0].key.remoteJid,
+            pesan: pesan,
+            tanggal: helpers.convert_date(m.messageTimestamp), //tanggal_clear,
+            timestamp: m.messageTimestamp,
+            nama_pengirim: pesanMasuk.messages[0]?.pushName
+          });
+        }
       }
       // await sock.sendMessage(m.messages[0].key.remoteJid!, { text: 'Hello there!' })
     });

@@ -1,4 +1,4 @@
-const moment = require('moment');
+const moment = require('moment-timezone');
 
 const tanggal_bulan = (bulan) => {
     // let ubah_bulan
@@ -67,7 +67,25 @@ const tanggal_sekarang = () => {
       return moment(tanggal.replace(/\./g, ':')).format('YYYY-DD-MM')
 }
 
+const convert_date = (timestamp) => {
+    const waktu = Math.floor(timestamp * 1000)
+    
+    console.log('tanggal sebelum di ubah ', waktu)
+    const tanggal_clear = moment.tz(waktu, 'Asia/Jakarta').format('YYYY-MM-DD HH:mm:ss')
+    console.log('tanggal ubah :: ', tanggal_clear)
+
+    return tanggal_clear
+}
+
+const tanggal_sekarang_v2 = () => {
+    return moment.tz(new Date(), 'Asia/Jakarta').format('YYYY-MM-DD')
+}
+
+// convert_date()
+
 module.exports = {
     tanggal_bulan,
-    tanggal_sekarang
+    tanggal_sekarang,
+    convert_date,
+    tanggal_sekarang_v2
 }

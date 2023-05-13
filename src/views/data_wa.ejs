@@ -109,6 +109,7 @@
                                 table-info" id="tableDataChat">
                                 <thead>
                                     <tr>
+                                        <th class="text-center" scope="col">Nama Pengirim</th>
                                         <th class="text-center" scope="col">Pengirim</th>
                                         <th class="text-center" scope="col">Penerima</th>
                                         <th class="text-center" scope="col">Isi
@@ -148,25 +149,27 @@
         <script>
 
             $(document).ready( function () {
-                $('#tableDataChat').DataTable({
-                    responsive: true,
-                    dom: 'Bfrtip',
-                    buttons: [
-                        'copy', 'csv', 'excel', 'pdf', 'print'
-                    ],
-                    ajax: {
-                        url: `http://${url_base}/get_chat_wa`,
-                        dataSrc: 'data',
-                    },
-                    columns: [
-                        { data: 'pengirim', "width": "10%" },
-                        { data: 'penerima', "width": "20%" },
-                        { data: 'chat', "width": "20%" },
-                        { data: 'created_at', "width": "10%" }
-                    ],
-                    scrollX: true,
-                    order: [[3, 'desc']],
-                })
+                // $('#tableDataChat').DataTable({
+                //     responsive: true,
+                //     dom: 'Bfrtip',
+                //     buttons: [
+                //         'copy', 'csv', 'excel', 'pdf', 'print'
+                //     ],
+                //     ajax: {
+                //         url: `http://${url_base}/get_chat_wa`,
+                //         dataSrc: 'data',
+                //     },
+                //     columns: [
+                //         { data: 'nama_pengirim', "width": "10%" },
+                //         { data: 'pengirim', "width": "10%" },
+                //         { data: 'penerima', "width": "20%" },
+                //         { data: 'chat', "width": "20%" },
+                //         { data: 'created_at', "width": "10%" }
+                //     ],
+                //     scrollX: true,
+                //     order: [[3, 'desc']],
+                // })
+                getDataPesanTable('')
             } );
 
             const session = '<%= session %>'
@@ -214,12 +217,22 @@
             const filterTanggal = () => {
                 $('#tableDataChat').DataTable().destroy();
                 const tanggal = $('#filterTanggal').val()
+                getDataPesanTable(tanggal)
+            }
+
+            const exportData = () => {
+
+            }
+
+            const getDataPesanTable = (tanggal) => {
+                console.log('getDataPesanTable ', tanggal)
                 $('#tableDataChat').DataTable({
                     ajax: {
                         url: `http://${url_base}/get_chat_wa?tanggal=${tanggal}`,
                         dataSrc: 'data',
                     },
                     columns: [
+                        { data: 'nama_pengirim', "width": "10%" },
                         { data: 'pengirim', "width": "10%" },
                         { data: 'penerima', "width": "20%" },
                         { data: 'chat', "width": "20%" },
@@ -233,25 +246,6 @@
                     scrollX: true,
                     order: [[3, 'desc']],
                 }).ajax.reload()
-            }
-
-            const exportData = () => {
-
-            }
-
-            const getDataPesanTable = (tanggal) => {
-                $('#tableDataChat').DataTable({
-                    ajax: {
-                        url: `http://${url_base}/get_chat_wa?tanggal=${tanggal}`,
-                        dataSrc: 'data',
-                    },
-                    columns: [
-                        { data: 'pengirim' },
-                        { data: 'penerima' },
-                        { data: 'chat' },
-                        { data: 'created_at' }
-                    ]
-                })
             }
 
             const cekFilterTanggal = () => {

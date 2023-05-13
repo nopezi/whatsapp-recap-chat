@@ -1,5 +1,6 @@
 const db = require("../db");
 const helpers = require("../helpers");
+const moment = require('moment-timezone');
 
 const simpan_pesan = (data) => {
   // const tanggal = new Date()
@@ -7,12 +8,14 @@ const simpan_pesan = (data) => {
   let sql = `INSERT INTO pesan_wa (`;
   sql += `pengirim,`;
   sql += `penerima,`;
+  sql += `nama_pengirim,`;
   sql += `chat,`;
   sql += `created_at, `;
   sql += `timestamp `;
   sql += ` ) VALUES ( `;
   sql += `'${data.pengirim}', `;
   sql += `'${data.penerima}', `;
+  sql += `'${data.nama_pengirim}', `;
   sql += `'${data.pesan}', `;
   sql += `'${data.tanggal}', `;
   sql += `'${data.timestamp}' ) `;
@@ -34,7 +37,7 @@ const get_all_pesan = (tanggal, callback) => {
   if (tanggal) {
     sql += ` WHERE created_at like '%${tanggal}%' `;
   } else {
-    // sql += ` WHERE created_at like '%${helpers.tanggal_sekarang()}%' `;
+    sql += ` WHERE created_at like '%${helpers.tanggal_sekarang_v2()}%' `;
   }
 
   sql += ` ORDER BY created_at DESC `;
@@ -56,18 +59,20 @@ const get_all_pesan = (tanggal, callback) => {
           tanggal_lengkap += ` ${tanggal.getHours()}:${tanggal.getMinutes()}:${tanggal.getSeconds()} `;
           let dateTime = `${tanggal.getFullYear()}-${tanggal.getMonth()}-${tanggal.getDate()} ${tanggal.getHours()}:${tanggal.getMinutes()}:${tanggal.getSeconds()}`;
 
-          let tanggal_zone = new Date(element.created_at).toLocaleString("id-ID", {
-            timeZone: "Asia/Jakarta",
-            year: 'numeric',
-            month: "2-digit",
-            day: "2-digit",
-            hour: "2-digit",
-            minute: "2-digit",
-            second: "2-digit",
-          });
+          // let tanggal_zone = new Date(element.created_at).toLocaleString("id-ID", {
+          //   timeZone: "Asia/Jakarta",
+          //   year: 'numeric',
+          //   month: "2-digit",
+          //   day: "2-digit",
+          //   hour: "2-digit",
+          //   minute: "2-digit",
+          //   second: "2-digit",
+          // });
 
-          console.log(element.created_at)
-          console.log(tanggal_zone)
+          let tanggal_zone = moment.tz(element.created_at, 'Asia/Jakarta').format('YYYY-MM-DD HH:mm:ss')
+
+          // console.log(element.created_at)
+          // console.log(tanggal_zone)
 
           result[row].created_at = tanggal_zone;
         });
