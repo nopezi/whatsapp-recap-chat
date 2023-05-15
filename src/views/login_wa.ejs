@@ -114,10 +114,10 @@
             const session = '<%= session %>'
             const url_base = '<%= url_base %>'
             const logged = '<%= logged %>'
-
+            console.log(typeof logged)
             $(document).ready(function() {
 
-                if (logged) {
+                if (logged == 'true') {
                     $('#imageQRCODE').html('')
                     const html = `<li><h4 class="text-danger">Whatsapp is Connected<h4></li>`
                     $('.logs').html(html)
@@ -126,7 +126,7 @@
                 var socket = io.connect(`http://${url_base}`, { path: '/socket.io' });
 
                 socket.on('message', function(msg) {
-                    if (logged) {
+                    if (logged == 'true') {
                         $('#imageQRCODE').html('')
                     } else {
                         const html = `<li><h4 class="text-warning">${msg}<h4></li>`
