@@ -43,12 +43,12 @@ const client = new Client({
     // }),
     restartOnAuthFail: true,
     authStrategy: new LocalAuth({ clientId: "client-one" }),
-    // puppeteer: {
-      //     args: [
-      //       '--no-sandbox',
-      //       '--disable-setuid-sandbox'
-      //     ],
-      // }
+    puppeteer: {
+          args: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox'
+          ],
+      }
   })
 
 whatsapp_web(server, client)

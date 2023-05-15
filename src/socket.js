@@ -56,8 +56,8 @@ const socketRun = (client, server) => {
 
         login_model.update_login_wa(0)
         // Destroy actual browser
-        client.destroy()
-        client.initialize()
+        // client.destroy()
+        // client.initialize()
 
         //delete session path
         // const pathToDir = path.join(__dirname, "../.wwebjs_auth")
