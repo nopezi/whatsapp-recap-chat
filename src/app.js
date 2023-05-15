@@ -13,7 +13,7 @@ const whatsapp_web = require('./whatsapp_web');
 
 const app = express();
 const server = http.createServer(app);
-require('events').EventEmitter.defaultMaxListeners = infinity;
+require('events').EventEmitter.defaultMaxListeners = 0;
 // const cors = require('cors');
 
 // // app.use(cors())
