@@ -58,7 +58,7 @@ const update_login_wa = (req) => {
         if (err) {
             console.log('update_login_wa error :: ', err)
         } else {
-            console.log('update_login_wa sukses :: ', result)
+            console.log('update_login_wa sukses :: ')
         }
     })
 }

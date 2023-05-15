@@ -1,4 +1,4 @@
-
+const { Client, LegacySessionAuth, LocalAuth, Message  } = require('whatsapp-web.js');
 const socketRun = require('./socket')
 const useChat = require('./chat')
 const fs = require('fs');
@@ -12,6 +12,20 @@ const whatsapp_web = (server, client, reload) => {
   // }
 
   // const client = new Client({ puppeteer: { headless: true }, session: sessionCfg });
+
+  // const client = new Client({
+  //   // authStrategy: new LegacySessionAuth({
+  //   //     session: sessionCfg
+  //   // }),
+  //   restartOnAuthFail: true,
+  //   authStrategy: new LocalAuth({ clientId: "client-one" }),
+  //   // puppeteer: {
+  //     //     args: [
+  //     //       '--no-sandbox',
+  //     //       '--disable-setuid-sandbox'
+  //     //     ],
+  //     // }
+  // })
   
 
   console.log('function whatsapp web start ... ')

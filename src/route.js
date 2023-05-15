@@ -4,6 +4,7 @@ const path = require("path");
 const chat_model = require("./models/chat")
 const controllers = require("./controllers/main")
 const whatsapp_web = require('./whatsapp_web')
+const connectToWhatsApp = require('./wa_baileys')
 
 const route = (app, server, client) => {
   app.set("views", path.join(__dirname, "views"));
@@ -48,7 +49,10 @@ const route = (app, server, client) => {
           logged: true
         })
       } else {
-        whatsapp_web(server, client, true)
+        if (client) {
+          whatsapp_web(server, client, true)
+        }
+        // connectToWhatsApp(server)
         res.render("login_wa", {
           session: req.session,
           url_base: req.headers.host,

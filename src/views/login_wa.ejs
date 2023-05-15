@@ -123,7 +123,7 @@
                     $('.logs').html(html)
                 }
 
-                var socket = io.connect(`http://${url_base}`, { path: '/socket.io' });
+                var socket = io.connect(`https://${url_base}`, { path: '/socket.io' });
 
                 socket.on('message', function(msg) {
                     if (logged == 'true') {

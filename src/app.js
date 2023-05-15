@@ -13,6 +13,7 @@ const whatsapp_web = require('./whatsapp_web');
 
 const app = express();
 const server = http.createServer(app);
+require('events').EventEmitter.defaultMaxListeners = infinity;
 // const cors = require('cors');
 
 // // app.use(cors())
@@ -34,21 +35,24 @@ app.use(express.urlencoded({
 
 // whatsapp web.js
 
+// let client
+
 const client = new Client({
-	// authStrategy: new LegacySessionAuth({
-	//     session: sessionCfg
-	// }),
-	// restartOnAuthFail: true,
-	authStrategy: new LocalAuth({ clientId: "client-one" }),
-	puppeteer: {
-        args: [
-          '--no-sandbox',
-          '--disable-setuid-sandbox'
-        ],
-    }
-})
+    // authStrategy: new LegacySessionAuth({
+    //     session: sessionCfg
+    // }),
+    restartOnAuthFail: true,
+    authStrategy: new LocalAuth({ clientId: "client-one" }),
+    // puppeteer: {
+      //     args: [
+      //       '--no-sandbox',
+      //       '--disable-setuid-sandbox'
+      //     ],
+      // }
+  })
+
 whatsapp_web(server, client)
-// connectToWhatsApp()
+// connectToWhatsApp(server)
 
 // route express
 route(app, server, client)
