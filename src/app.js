@@ -38,7 +38,7 @@ const client = new Client({
 	// authStrategy: new LegacySessionAuth({
 	//     session: sessionCfg
 	// }),
-	restartOnAuthFail: true,
+	// restartOnAuthFail: true,
 	authStrategy: new LocalAuth({ clientId: "client-one" }),
 	puppeteer: {
         args: [
