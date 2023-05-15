@@ -1,4 +1,4 @@
-
+const { Client, LegacySessionAuth, LocalAuth, Message  } = require('whatsapp-web.js');
 const express = require('express');
 const sessions = require('express-session');
 const cookieParser = require("cookie-parser");
@@ -9,7 +9,7 @@ const connectToWhatsApp = require('./wa_baileys')
 
 const http = require('http');
 
-// const whatsapp_web = require('./src/whatsapp_web');
+const whatsapp_web = require('./whatsapp_web');
 
 const app = express();
 const server = http.createServer(app);
@@ -33,11 +33,19 @@ app.use(express.urlencoded({
 // }))
 
 // whatsapp web.js
-// whatsapp_web(server)
-connectToWhatsApp()
+
+const client = new Client({
+	// authStrategy: new LegacySessionAuth({
+	//     session: sessionCfg
+	// }),
+	restartOnAuthFail: true,
+	authStrategy: new LocalAuth({ clientId: "client-one" }),
+})
+whatsapp_web(server, client)
+// connectToWhatsApp()
 
 // route express
-route(app)
+route(app, server, client)
 
 const port = process.env.PORT || "9000";
 

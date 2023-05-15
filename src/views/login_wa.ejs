@@ -113,23 +113,49 @@
 
             const session = '<%= session %>'
             const url_base = '<%= url_base %>'
+            const logged = '<%= logged %>'
 
             $(document).ready(function() {
+
+                if (logged) {
+                    $('#imageQRCODE').html('')
+                    const html = `<li><h4 class="text-danger">Whatsapp is Connected<h4></li>`
+                    $('.logs').html(html)
+                }
+
                 var socket = io.connect(`http://${url_base}`, { path: '/socket.io' });
 
                 socket.on('message', function(msg) {
-                    $('.logs').append($('<li>').text(msg));
+                    if (logged) {
+                        $('#imageQRCODE').html('')
+                    } else {
+                        const html = `<li><h4 class="text-warning">${msg}<h4></li>`
+                        $('.logs').html(html)
+                    }
+                    // $('.logs').append($('<li>').text(msg));
                 });
+
+                socket.on('logout', function(msg) {
+                    const html = `<li><h4 class="text-danger">${msg}<h4></li>`
+                    $('.logs').html(html)
+                    // $('.logs').append($('<li>').text(msg));
+                })
 
                 socket.on('qr', function(src) {
-                    // console.log('url qr code nya ' + src);
                     $('#imageQRCODE').html('<img src="" alt="Qr Code" id="qrcode">')
-                    $('#qrcode').attr('src', src);
+                    $('#qrcode').attr('src', src)
                 });
 
-                socket.on('ready', function(src) {
-                    $('#imageQRCODE').html('<img src="" alt="Qr Code" id="qrcode">')
-                    $('#qrcode').hide();
+                socket.on('loading', (msg) => {
+                    const html = `<li><h4 class="text-info">Loading ${msg} ... <h4></li>`
+                    $('.logs').html(html)
+                })
+
+                socket.on('ready', function(msg) {
+                    $('#imageQRCODE').html('')
+                    $('#qrcode').hide()
+                    const html = `<li><h4 class="text-success">${msg}<h4></li>`
+                    $('.logs').html(html)
                 });
 
                 socket.on('authenticated', function(src) {

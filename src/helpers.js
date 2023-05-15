@@ -81,8 +81,6 @@ const tanggal_sekarang_v2 = () => {
     return moment.tz(new Date(), 'Asia/Jakarta').format('YYYY-MM-DD')
 }
 
-// convert_date()
-
 module.exports = {
     tanggal_bulan,
     tanggal_sekarang,

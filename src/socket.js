@@ -1,6 +1,7 @@
 const socketIO = require('socket.io');
 const express = require('express');
 const qrcode = require('qrcode');
+const login_model = require('./models/login')
 
 const socketRun = (client, server) => {
   const io = socketIO(server);
@@ -16,14 +17,20 @@ const socketRun = (client, server) => {
       });
     });
 
+    client.on('loading_screen', (percent, message) => {
+        console.log('LOADING SCREEN', percent, message)
+        socket.emit("loading", message)
+    })
+
     client.on("ready", () => {
       console.log("Client is ready!");
-      socket.emit("message", "Whatsapp sudah ready");
+      // socket.emit("message", "Whatsapp sudah ready");
+      login_model.update_login_wa(1)
       socket.emit("ready", "Whatsapp ready");
     });
 
     client.on("authenticated", (session) => {
-      console.log("cek AUTHENTICATED :: ", session);
+      console.log("cek AUTHENTICATED :: ", client.info);
       socket.emit("message", "Whatsapp sudah authenticated");
       socket.emit("authenticated", "Whatsapp authenticated");
       sessionCfg = session;
@@ -39,7 +46,35 @@ const socketRun = (client, server) => {
           }
         );
       }
-    });
+    })
+
+    client.on('disconnected', (reason) => {
+      socket.emit("logout", 'Client was logged out');
+      console.log('Client was logged out', reason);
+      
+      try {
+
+        login_model.update_login_wa(0)
+        // Destroy actual browser
+        client.destroy()
+        client.initialize()
+
+        //delete session path
+        // const pathToDir = path.join(__dirname, "../.wwebjs_auth")
+        // console.log('delete dir session ... ')
+        // console.log(fs.rmdirSync(pathToDir, { recursive: true }))
+
+        // // Send command to restart the instance
+        // setTimeout(() => {
+        //   console.log('Restarting ...');
+        //   whatsapp_web(server)
+        // } ,300)
+
+      } catch (error) {
+        console.error('Error on session finished. %s', error);
+      }
+  })
+
   });
 };
 

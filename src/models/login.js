@@ -51,11 +51,34 @@ const update_status_login = (id, callback) => {
     })
 }
 
-const get_login = () => {
+const update_login_wa = (req) => {
+    let sql = `UPDATE admin_wa SET login_wa = ${req} WHERE id = 4`
+    
+    db.pool.query(sql, (err, result) => {
+        if (err) {
+            console.log('update_login_wa error :: ', err)
+        } else {
+            console.log('update_login_wa sukses :: ', result)
+        }
+    })
+}
 
+const get_login_wa = (callback) => {
+    let sql = `SELECT * FROM admin_wa limit 1`
+    
+    db.pool.query(sql, (err, result) => {
+        if (err) {
+            console.log('get_login_wa error :: ', err)
+            callback(null)
+        } else {
+            console.log('get_login_wa sukses :: ', result)
+            callback(result[0])
+        }
+    })
 }
 
 module.exports = {
     login,
-    get_login
+    update_login_wa,
+    get_login_wa
 }

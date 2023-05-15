@@ -2,8 +2,10 @@ const { body, validationResult } = require("express-validator");
 const login_model = require("./models/login");
 const path = require("path");
 const chat_model = require("./models/chat")
+const controllers = require("./controllers/main")
+const whatsapp_web = require('./whatsapp_web')
 
-const route = (app) => {
+const route = (app, server, client) => {
   app.set("views", path.join(__dirname, "views"));
   app.set("view engine", "ejs");
 
@@ -36,10 +38,24 @@ const route = (app) => {
   });
 
   app.get("/login_wa", (req, res) => {
-    res.render("login_wa", {
-      session: req.session,
-      url_base: req.headers.host,
-    });
+
+    login_model.get_login_wa((result,err) => {
+      console.log('router get_login_wa ', result.login_wa)
+      if (result && result.login_wa == 1) {
+        res.render("login_wa", {
+          session: req.session,
+          url_base: req.headers.host,
+          logged: true
+        })
+      } else {
+        whatsapp_web(server, client, true)
+        res.render("login_wa", {
+          session: req.session,
+          url_base: req.headers.host,
+          logged: false
+        })
+      }
+    })
   });
 
   app.get("/data_wa", (req, res) => {
@@ -55,6 +71,10 @@ const route = (app) => {
       session: req.session,
     });
   });
+
+  app.get("/whatsapp_client_info", async (req, res) => {
+    await res.json(controllers.whatsappWeb.getInfoClient())
+  })
 
   app.post("/aksi_login", (req, res) => {
     // session = req.session
@@ -77,7 +97,10 @@ const route = (app) => {
   });
 
   app.get("/get_chat_wa", (req, res) => {
-      chat_model.get_all_pesan(req.query.tanggal, (result, err) => {
+      chat_model.get_all_pesan({
+        from: req.query.from,
+        to: req.query.to
+      }, (result, err) => {
         res.json(result)
       })
   });

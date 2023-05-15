@@ -3,6 +3,7 @@ const helpers = require("../helpers");
 const moment = require('moment-timezone');
 
 const simpan_pesan = (data) => {
+  console.log('simpan pesan ', data)
   // const tanggal = new Date()
   // const tanggal_waktu = `${tanggal.getFullYear()}-${tanggal.getMonth()}-${tanggal.getDate()} ${tanggal.getHours()}:${tanggal.getMinutes()}:${tanggal.getSeconds()}`
   let sql = `INSERT INTO pesan_wa (`;
@@ -29,18 +30,20 @@ const simpan_pesan = (data) => {
       console.log("simpan pesan sukses ::", result);
     }
   });
-};
+}
 
 const get_all_pesan = (tanggal, callback) => {
   let sql = `SELECT * FROM pesan_wa `;
 
-  if (tanggal) {
-    sql += ` WHERE created_at like '%${tanggal}%' `;
+  if (!tanggal.from || !tanggal.to) {
+    sql += ` WHERE created_at like '%${helpers.tanggal_sekarang_v2()}%' `
   } else {
-    sql += ` WHERE created_at like '%${helpers.tanggal_sekarang_v2()}%' `;
+    sql += ` WHERE created_at between '${tanggal.from} 00:00:00.000' and '${tanggal.to} 23:00:00.000'`
   }
 
-  sql += ` ORDER BY created_at DESC `;
+  sql += ` ORDER BY created_at DESC `
+
+  console.log('get_all_pesan :: ', sql)
 
   db.pool.query(sql, (err, result) => {
     if (err) {
@@ -91,7 +94,7 @@ const get_all_pesan = (tanggal, callback) => {
       }
     }
   });
-};
+}
 
 module.exports = {
   simpan_pesan,
