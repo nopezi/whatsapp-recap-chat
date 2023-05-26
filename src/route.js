@@ -42,6 +42,7 @@ const route = (app, server, client) => {
 
     login_model.get_login_wa((result,err) => {
       console.log('router get_login_wa ', result.login_wa)
+      console.log('headers ', req.headers)
       if (result && result.login_wa == 1) {
         res.render("login_wa", {
           session: req.session,

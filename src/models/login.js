@@ -52,7 +52,7 @@ const update_status_login = (id, callback) => {
 }
 
 const update_login_wa = (req) => {
-    let sql = `UPDATE admin_wa SET login_wa = ${req} WHERE id = 4`
+    let sql = `UPDATE admin_wa SET login_wa = ${req} WHERE username = 'admin'`
     
     db.pool.query(sql, (err, result) => {
         if (err) {

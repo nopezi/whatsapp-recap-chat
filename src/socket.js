@@ -33,7 +33,8 @@ const socketRun = (client, server) => {
       console.log("cek AUTHENTICATED :: ", client.info);
       socket.emit("message", "Whatsapp sudah authenticated");
       socket.emit("authenticated", "Whatsapp authenticated");
-      sessionCfg = session;
+      sessionCfg = session
+      login_model.update_login_wa(1)
 
       if (session) {
         fs.writeFile(

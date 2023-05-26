@@ -11,7 +11,7 @@ const whatsapp_web = (server, client, reload) => {
   //   sessionCfg = require(SESSION_FILE_PATH);
   // }
 
-  // const client = new Client({ puppeteer: { headless: true }, session: sessionCfg });
+  // const client = new Client({ puppeteer: { headless: true }, session: sessionCfg })
 
   // const client = new Client({
   //   // authStrategy: new LegacySessionAuth({
@@ -43,7 +43,7 @@ const whatsapp_web = (server, client, reload) => {
 
   client.initialize()
 
-  useChat(client);
+  useChat(client)
 
   // socket io
   socketRun(client, server)

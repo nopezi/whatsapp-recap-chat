@@ -1,20 +1,28 @@
-var mysql = require('mysql')
-// var dbConf = {
+const mysql = require('mysql')
+// const dbConf = {
 //   host: 'sql.freedb.tech',
 //   user: 'freedb_whatsapp_', //
 //   password: '&RcNBeM#MxpG8eZ', //
 //   database: 'freedb_jono_',
 //   port: '3306',
-//   connectionLimit: 150000,
+//   // connectionLimit: 150000,
 //   // queueLimit: 30,
 //   // acquireTimeout: 1000000
 // }
 
-var dbConf = {
-  host: 'us-cdbr-east-02.cleardb.com',
-  user: 'b10250d4524049', //
-  password: 'd377e116', //
-  database: 'heroku_13b21ebb9b93855',
+// var dbConf = {
+//   host: 'us-cdbr-east-02.cleardb.com',
+//   user: 'b10250d4524049', //
+//   password: 'd377e116', //
+//   database: 'heroku_13b21ebb9b93855',
+//   port: '3306',
+// }
+
+const dbConf = {
+  host: 'sql12.freesqldatabase.com',
+  user: 'sql12619655', //
+  password: 'Rq8YKf2HI9', //
+  database: 'sql12619655',
   port: '3306',
 }
 
